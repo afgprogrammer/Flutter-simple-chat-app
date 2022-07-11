@@ -13,7 +13,7 @@ flutter run
 ## Screenshots
 
 ### Chat Page
-<img src="assets/screenshots/chat-page.png" />
+<img src="assets/screenshots/chat-page.png" width="500px" />
 
 ## Links
 
