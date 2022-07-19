@@ -44,14 +44,22 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
   ];
 
   late Animation<double> opacity;
+  late AnimationController slideInputController;
+  late Animation<Offset> slideInputAnimation;
+
   var isVisible = true;
 
   @override
   void initState() {
+    slideInputController = createController()..duration = Duration(milliseconds: 500);
+
+    slideInputAnimation = Tween<Offset>(
+      begin: Offset(0, 0),
+      end: Offset(-2, 0),
+    ).animate(slideInputController);
+
     opacity = Tween<double>(begin: 1, end: 0).animate(controller);
     controller.duration = Duration(milliseconds: 200);
-
-    // controller.play(); // start the animation playback
 
     super.initState();
   }
@@ -155,75 +163,91 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     margin: EdgeInsets.zero,
                     child: Padding(
                       padding: EdgeInsets.only(right: 8, left: 8, bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 15 : 28, top: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      child: Stack(
                         children: [
-                          IconButton(
-                            splashRadius: 20,
-                            icon: Icon(Icons.add, color: Colors.grey.shade700, size: 28,),
-                            onPressed: () {},
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              child: TextField(
-                                controller: textController,
-                                minLines: 1,
-                                maxLines: 5,
-                                cursorColor: Colors.black,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.only(right: 16, left: 20, bottom: 10, top: 10),
-                                  hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade700),
-                                  hintText: 'Type a message',
-                                  border: InputBorder.none,
-                                  filled: true,
-                                  fillColor: Colors.grey.shade100,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    gapPadding: 0,
-                                    borderSide: BorderSide(color: Colors.grey.shade200),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    gapPadding: 0,
-                                    borderSide: BorderSide(color: Colors.grey.shade300),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  if (value.length > 0) {
-                                    hideTheMic();
-                                  } else {
-                                    showTheMic();
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Visibility(
-                                visible: isVisible,
-                                child: FadeTransition(
-                                  opacity: opacity,
-                                  child: IconButton(
-                                    splashRadius: 20,
-                                    icon: Icon(Icons.mic, color: Colors.grey.shade700,),
-                                    onPressed: () {},
+                              Expanded(
+                                child: SlideTransition(
+                                  position: slideInputAnimation,
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        splashRadius: 20,
+                                        icon: Icon(Icons.add, color: Colors.grey.shade700, size: 28,),
+                                        onPressed: () {},
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: TextField(
+                                            controller: textController,
+                                            minLines: 1,
+                                            maxLines: 5,
+                                            cursorColor: Colors.black,
+                                            decoration: InputDecoration(
+                                              isDense: true,
+                                              contentPadding: EdgeInsets.only(right: 16, left: 20, bottom: 10, top: 10),
+                                              hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+                                              hintText: 'Type a message',
+                                              border: InputBorder.none,
+                                              filled: true,
+                                              fillColor: Colors.grey.shade100,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                                gapPadding: 0,
+                                                borderSide: BorderSide(color: Colors.grey.shade200),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                                gapPadding: 0,
+                                                borderSide: BorderSide(color: Colors.grey.shade300),
+                                              ),
+                                            ),
+                                            onChanged: (value) {
+                                              if (value.length > 0) {
+                                                hideTheMic();
+                                              } else {
+                                                showTheMic();
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
                                   ),
                                 ),
                               ),
-                              IconButton(
-                                splashRadius: 20,
-                                icon: Icon(Icons.send, color: isVisible ? Colors.grey.shade700 : Colors.blue,),
-                                onPressed: () {
-                                  if (textController.text.length > 0) {
-                                    addToMessages(textController.text);
-                                    textController.clear();
-                                    showTheMic();
-                                  }
-                                },
+                              Row(
+                                children: [
+                                  Visibility(
+                                    visible: isVisible,
+                                    child: FadeTransition(
+                                      opacity: opacity,
+                                      child: IconButton(
+                                        splashRadius: 20,
+                                        icon: Icon(Icons.mic, color: Colors.grey.shade700,),
+                                        onPressed: () {
+                                          slideInputController.play();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    splashRadius: 20,
+                                    icon: Icon(Icons.send, color: isVisible ? Colors.grey.shade700 : Colors.blue,),
+                                    onPressed: () {
+                                      if (textController.text.length > 0) {
+                                        addToMessages(textController.text);
+                                        textController.clear();
+                                        showTheMic();
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
