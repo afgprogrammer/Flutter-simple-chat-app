@@ -6,6 +6,7 @@ class Message {
     this.type,
     this.attachment,
     this.voice,
+    required this.createdAt,
     required this.isMe,
   });
 
@@ -14,6 +15,7 @@ class Message {
   String? type;
   String? attachment;
   String? voice;
+  String createdAt;
   bool isMe;
 
   Message copyWith({
@@ -22,6 +24,7 @@ class Message {
   String? type,
   String? attachment,
   String? voice,
+  required String createdAt,
   required bool isMe,
   }) => 
     Message(
@@ -31,6 +34,7 @@ class Message {
       attachment: attachment,
       voice: voice,
       isMe: isMe,
+      createdAt: createdAt,
     );
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
@@ -40,6 +44,7 @@ class Message {
     attachment: json["attachment"],
     voice: json["voice"],
     isMe: json["isMe"],
+    createdAt: json["createdAt"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +54,6 @@ class Message {
     "attachment": attachment,
     "voice": voice,
     "isMe": isMe,
+    "createdAt": createdAt,
   };
 }
