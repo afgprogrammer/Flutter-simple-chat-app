@@ -1,4 +1,7 @@
-import 'package:animations/animations.dart';
+import 'package:day60/models/chat/chat.dart';
+import 'package:day60/models/message/message.dart';
+import 'package:day60/pages/home/tabs/components/message_widget.dart';
+import 'package:day60/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -10,38 +13,9 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> with AnimationMixin {
+  late Chat chat;
   final textController = TextEditingController();
   final _scrollController = ScrollController();
-  
-  // create a list of messages
-  List<String> messages = [
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-    'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs',
-  ];
 
   late Animation<double> opacity;
   late AnimationController slideInputController;
@@ -66,8 +40,12 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
 
   addToMessages(String text) {
     setState(() {
-      // add to the first of the list
-      messages.insert(0, text);
+      chat.messages.insert(0, Message(
+        id: chat.messages.length + 1,
+        text: text,
+        createdAt: 'Just now',
+        isMe: true,
+      ));
     });
   }
 
@@ -90,23 +68,24 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    chat = ModalRoute.of(context)!.settings.arguments as Chat;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: ColorConstants.lightBackgroundColor,
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 2,
+        elevation: 0,
         centerTitle: false,
         titleSpacing: 0,
         title: ListTile(
           onTap: () {},
           leading: CircleAvatar(
             backgroundImage: NetworkImage(
-              'https://i.pravatar.cc/300',
+              chat.user.profile,
             ),
           ),
-          title: Text('Mohammad', style: theme.textTheme.headline6),
+          title: Text(chat.user.name, style: theme.textTheme.headline6),
           subtitle: Text('last seen yesterday at 21:05', style: theme.textTheme.bodySmall),
         ),
         actions: [
@@ -130,17 +109,15 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
             child: Column(
               children: [
                 Expanded(
-                  child: messages.length > 0 ? ListView.builder(
+                  child: chat.messages.length > 0 ? ListView.builder(
                     reverse: true,
                     shrinkWrap: true,
                     controller: _scrollController,
                     padding: EdgeInsets.symmetric(vertical: 8),
-                    itemCount: messages.length,
+                    itemCount: chat.messages.length,
                     itemBuilder: (context, index) {
-                      return MessageItem(
-                        isMe: index % 2 == 0,
-                        message: messages[index],
-                        time: '21:05',
+                      return MessageWidget(
+                        message: chat.messages[index],
                       );
                     },
                   ) : Container(
@@ -262,65 +239,5 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
         ],
       ),
     );
-  }
-
-  Widget MessageItem({required bool isMe, required String message, required  String time}) {
-    final theme = Theme.of(context);
-
-    if (isMe) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            constraints: BoxConstraints(
-              maxWidth: 250
-            ),
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(right: 8, bottom: 8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Color(0xff1972F5),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(message, style: theme.textTheme.bodyText2?.copyWith(color: Colors.white)),
-                SizedBox(height: 4,),
-                Text(time, style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey.shade300)),
-              ],
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Row(
-        children: [
-          Container(
-            constraints: BoxConstraints(
-              maxWidth: 250
-            ),
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.only(left: 8, bottom: 8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Color.fromARGB(255, 225, 231, 236),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(message, style: theme.textTheme.bodyText2),
-                SizedBox(height: 4,),
-                Text(time, style: theme.textTheme.bodySmall),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
