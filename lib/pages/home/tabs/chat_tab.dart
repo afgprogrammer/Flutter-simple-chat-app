@@ -1,3 +1,4 @@
+import 'package:day60/pages/home/tabs/components/story_list.dart';
 import 'package:day60/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -25,6 +26,15 @@ class _ChatTabState extends State<ChatTab> {
             onPressed: () {},
           ),
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            StoryList(),
+            SizedBox(height: 20,),
+          ],
+        ),
       ),
     );  
   }

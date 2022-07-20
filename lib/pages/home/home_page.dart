@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   late PageController _pageController;
-  int currentTab = 0;
+  int currentTab = 1;
 
   goToTab(int page) {
     setState(() {
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: 1);
 
     super.initState();
   }

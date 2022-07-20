@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ColorConstants {
   static Color lightBackgroundColor = hexToColor('#FBF8F0');
   static Color primaryColor = hexToColor("#00A8E8");
+  static Color storyHighlightColor = hexToColor("#A8AECA");
 }
 
 Color hexToColor(String hex) {
