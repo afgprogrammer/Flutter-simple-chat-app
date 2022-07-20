@@ -22,6 +22,14 @@ class Chat {
   int unReadCount;
   String lastMessageAt;
 
+  Chat copy() => Chat(
+    id: id,
+    user: user,
+    messages: messages,
+    unReadCount: unReadCount,
+    lastMessageAt: lastMessageAt,
+  );
+
   Chat copyWith({
     required int id,
     required User user,
