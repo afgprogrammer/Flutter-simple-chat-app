@@ -42,22 +42,16 @@ class _ChatTabState extends State<ChatTab> {
             SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Chats", style: theme.textTheme.subtitle1?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
-                  SizedBox(height: 8,),
-                  Column(
-                    children: chats.map((e) => Column(
-                      children: [
-                        ChatWidget(chat: e),
-                        chats.indexOf(e) != chats.length - 1 ? Divider(indent: 80,) : SizedBox(),
-                      ],
-                    )).toList(),
-                  ),
-                ],
+              child: Text("Chats", style: theme.textTheme.subtitle1?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
+            ),
+              Column(
+                children: chats.map((e) => Column(
+                  children: [
+                    ChatWidget(chat: e),
+                    chats.indexOf(e) != chats.length - 1 ? Divider(indent: 80, height: 1, endIndent: 16,) : SizedBox(),
+                  ],
+                )).toList(),
               ),
-            )
           ],
         ),
       ),
