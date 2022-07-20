@@ -14,13 +14,22 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListTile(
-      contentPadding: EdgeInsets.all(0),
+      onTap: () {
+        var chat = widget.chat.copy();
+            chat.messages = chat.messages.reversed.toList();
+
+        Navigator.pushNamed(context, '/message', arguments: chat);
+      },
       leading: CircleAvatar(
         radius: 30,
         backgroundImage: NetworkImage(widget.chat.user.profile),
       ),
-      title: Text(widget.chat.user.name, style: theme.textTheme.subtitle1?.copyWith(fontSize: 18, fontWeight: FontWeight.bold),),
-      subtitle: Text(widget.chat.messages.last.text!, style: theme.textTheme.bodyText2?.copyWith(color: Colors.blueGrey.shade400),),
+      title: Text(widget.chat.user.name, style: theme.textTheme.subtitle1?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      subtitle: Padding(
+        padding: EdgeInsets.only(top: 8.0),
+        child: Text(widget.chat.messages.last.text!, style: theme.textTheme.bodyText2?.copyWith(color: Colors.blueGrey.shade400),),
+      ),
       trailing: widget.chat.unReadCount > 0 ? Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
