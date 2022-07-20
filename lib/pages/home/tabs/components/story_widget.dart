@@ -1,4 +1,3 @@
-import 'package:day60/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 class StoryWidget extends StatelessWidget {
@@ -13,11 +12,25 @@ class StoryWidget extends StatelessWidget {
       padding: EdgeInsets.all(2),
       margin: EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.red,
+            Colors.yellow,
+          ],
+        ),
         shape: BoxShape.circle,
-        border: Border.all(color: ColorConstants.storyHighlightColor, width: 2),
       ),
-      child: CircleAvatar(
-        backgroundImage: Image.network(image, fit: BoxFit.cover,).image,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle
+        ),
+        padding: const EdgeInsets.all(2.0),
+        child: CircleAvatar(
+          backgroundImage: Image.network(image, fit: BoxFit.cover,).image,
+        ),
       ),
     );
   }
