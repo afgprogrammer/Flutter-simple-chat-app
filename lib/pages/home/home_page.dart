@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       currentTab = page;
     });
 
-    _pageController.animateToPage(page, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pageController.jumpToPage(page);
   }
 
   @override
