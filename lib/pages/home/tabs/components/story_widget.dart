@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class StoryWidget extends StatelessWidget {
@@ -29,7 +30,9 @@ class StoryWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(2.0),
         child: CircleAvatar(
-          backgroundImage: Image.network(image, fit: BoxFit.cover,).image,
+          backgroundColor: Colors.grey.shade300,
+          backgroundImage: CachedNetworkImageProvider(image),
+          // backgroundImage: Image.network(image, fit: BoxFit.cover,).image,
         ),
       ),
     );

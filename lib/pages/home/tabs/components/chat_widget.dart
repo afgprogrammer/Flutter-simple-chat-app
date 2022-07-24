@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:day60/models/chat/chat.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,8 @@ class _ChatWidgetState extends State<ChatWidget> {
       },
       leading: CircleAvatar(
         radius: 30,
-        backgroundImage: NetworkImage(widget.chat.user.profile),
+        backgroundColor: Colors.grey.shade300,
+        backgroundImage: CachedNetworkImageProvider(widget.chat.user.profile),
       ),
       title: Text(widget.chat.user.name, style: theme.textTheme.subtitle1?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),),
       visualDensity: VisualDensity.adaptivePlatformDensity,
