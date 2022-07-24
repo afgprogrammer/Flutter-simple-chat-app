@@ -52,15 +52,67 @@ class _StoryPageState extends State<StoryPage> {
                   );
                 },
                 slideTransform: CubeTransform(),
-                slideIndicator: CircularSlideIndicator(
-                  padding: EdgeInsets.only(bottom: 32),
-                  indicatorRadius: 10,
+                slideIndicator: CircularWaveSlideIndicator(
+                  padding: EdgeInsets.only(bottom: 40),
                   currentIndicatorColor: Colors.white,
                   indicatorBorderColor: Colors.grey.shade700,
-                  itemSpacing: 30,
-                  indicatorBackgroundColor: Colors.grey.shade700
+                  itemSpacing: 20,
+                  indicatorBackgroundColor: Colors.grey.shade700,
                 ),
                 itemCount: user.stories!.length
+              )
+            ),
+            Positioned(
+              top: 50,
+              left: 8,
+              right: 8,
+              child: Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            color: Colors.white,
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(user.profile),
+                            radius: 20,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user.name,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text(
+                                'Last seen 2 days ago',
+                                style: TextStyle(
+                                  color: Colors.grey.shade300,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.more_vert),
+                      color: Colors.white,
+                      onPressed: () => print('More'),
+                    ),
+                  ],
+                ),
               )
             )
           ],
