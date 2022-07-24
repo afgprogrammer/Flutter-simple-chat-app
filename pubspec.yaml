@@ -39,6 +39,8 @@ dependencies:
   scrollable_positioned_list: ^0.3.2
   iconsax: ^0.0.8
   intl: ^0.17.0
+  flutter_carousel_slider: ^1.0.9
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:
