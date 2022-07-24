@@ -1,5 +1,6 @@
 import 'package:day60/pages/home/home_page.dart';
 import 'package:day60/pages/message_page.dart';
+import 'package:day60/pages/story/story_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,6 +9,7 @@ void main() {
     home: HomePage(),
     routes: {
       '/message': (context) => MessagePage(),
+      '/story': (context) => StoryPage(),
     },
   ));
 }

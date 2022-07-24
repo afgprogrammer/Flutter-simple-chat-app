@@ -1,4 +1,6 @@
+import 'package:day60/data/user.dart';
 import 'package:day60/models/story/story.dart';
+import 'package:day60/models/user/user.dart';
 import 'package:day60/pages/home/tabs/components/story_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -22,6 +24,8 @@ class _StoryListState extends State<StoryList> {
     Story(url: 'https://images.pexels.com/photos/1855582/pexels-photo-1855582.jpeg?auto=compress&cs=tinysrgb&crop=faces&fit=crop&h=200&w=200'),
     Story(url: 'https://images.pexels.com/photos/1758845/pexels-photo-1758845.jpeg?auto=compress&cs=tinysrgb&crop=faces&fit=crop&h=200&w=200'),
   ];
+
+  final User user = getUser();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,9 @@ class _StoryListState extends State<StoryList> {
             );
           }
 
-          return StoryWidget(image: stories[index].url,);
+          return InkWell(
+            onTap: () => Navigator.pushNamed(context, '/story', arguments: user),
+            child: StoryWidget(image: stories[index].url,));
         },
       ),
     );
