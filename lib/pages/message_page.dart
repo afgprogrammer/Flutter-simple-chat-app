@@ -92,7 +92,9 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
           IconButton(
             splashRadius: 20,
             icon: Icon(Icons.videocam, color: Colors.grey.shade700,),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/video-call', arguments: chat);
+            },
           ),
           IconButton(
             splashRadius: 20,
